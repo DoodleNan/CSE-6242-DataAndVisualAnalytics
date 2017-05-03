@@ -1,0 +1,2 @@
+By using log scale in scatter plots, datas are more evenly distributed so easier to interpret.
+When data are in a very big range, it is wise to take log scale because linear scale will generate spaesity in some area and intensity in other areas.

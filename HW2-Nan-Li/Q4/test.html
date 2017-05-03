@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>heatmap</title>
+		<script type="text/javascript" src="../lib/d3.v3.min.js"></script>
+	</head>
+	<body>
+	<div id="div">
+		<select id="opts1" align="center">
+			<option value="data_90077" align="center">90077</option>
+			<option value="data_90094" align="center">90094</option>
+			<option value="data_90210" align="center">90210</option>
+			<option value="data_90212" align="center">90212</option>
+			<option value="data_90230" align="center">90230</option>
+			<option value="data_90232" align="center">90232</option>
+			<option value="data_90247" align="center">90247</option>
+		</select>
+	</div>
+		
+
+		<!-- <select id="opts2" align="center">
+			<option value="7" align="center">7</option>
+		</select> -->
+		<script type="text/javascript">
+			data_90077 = [];
+			data_90094 = [];
+			data_90210 = [];
+			data_90212 = [];
+			data_90230 = [];
+			data_90232 = [];
+			data_90247 = [];
+			
+			margin = {top: 200, right: 200, bottom: 50, left: 50},
+				width = 960-margin.left - margin.right,
+				height = 700-margin.top - margin.bottom;
+
+			svg = d3.select("body").append("svg")
+			    .attr("width", width+margin.left+margin.right)
+			    .attr("height", height+margin.top+margin.bottom)
+			  .append("g")
+			    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+			svg.append("div")
+				.attr("transform", "translate(100, 100)");
+			
+					// .attr("class", "select")
+					// .on("change", function(){
+					// var newData = eval(d3.select(this).property("value"));
+					// console.log(newData)
+				
+			
+		</script>
+	</body>

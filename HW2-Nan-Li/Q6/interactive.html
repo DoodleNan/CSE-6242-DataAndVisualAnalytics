@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>choropleth</title>
+		<script type="text/javascript" src="../lib/d3.v3.min.js"></script>
+		<style type="text/css">
+			body {
+  				font: 10px sans-serif;
+			}
+			.label {
+			  font-weight: bold;
+			}
+
+			.tile {
+			  shape-rendering: crispEdges;
+			}
+
+			.axis path,
+			.axis line{
+				opacity: 0;
+			}
+			.axis text{
+				font-size: 12px;
+				stroke: grey;
+			}
+			.bar {				
+			}
+			.q {
+			}
+			.money{
+			}
+		</style>
+	</head>
+	<body>
+		<rect class="bar"></rect>
+		<script type="text/javascript">
+			var data = [{product:'Product A',freq:{Q1:576, Q2:1176, Q3:1009, Q4:494}},
+						{product:'Product B',freq:{Q1:959, Q2:1653, Q3:1999, Q4:697}},
+						{product:'Product C',freq:{Q1:3210, Q2:4220, Q3:1648, Q4:919}},
+						{product:'Product D',freq:{Q1:589, Q2:2043, Q3:1153, Q4:911}},
+						{product:'Product E',freq:{Q1:2599, Q2:1333, Q3:818, Q4:1713}},
+						{product:'Product F',freq:{Q1:431, Q2:324, Q3:715, Q4:421}},
+						{product:'Product G',freq:{Q1:1457, Q2:2557, Q3:2245, Q4:762}},
+						{product:'Product H',freq:{Q1:2573, Q2:3357, Q3:1598, Q4:1287}}];
+			var margin = {top: 80, right: 80, bottom: 0, left: 80};
+			var width = 960-margin.left-margin.right;
+			var height = 640-margin.top-margin.bottom;
+			var svg = d3.select("body").append("svg")
+				.attr("width", width+margin.left+margin.right)
+				.attr("height", height+margin.top+margin.bottom)
+				.append("g")
+				.attr("transform", "translate("+margin.left+","+margin.top+")");
+			data = data.sort(function(a,b){
+				return d3.descending(a.product, b.product);
+			})
+			data.forEach(function(d){
+				d.sum = d.freq.Q1 + d.freq.Q2 + d.freq.Q3 + d.freq.Q4;
+			})
+			xScale = d3.scale.linear()
+				.domain([0, d3.max(data, function(d){
+					return d.sum;
+				})])
+				.range([0, width]);
+			
+			var yScale = d3.scale.ordinal()
+				.domain(data.map(function(d){
+					return d.product;
+				}))
+				.rangeRoundBands([height, 0], .1);
+			
+			var yAxis = d3.svg.axis().scale(yScale)
+				.tickSize(0)
+				.orient("left");
+			svg.append("g")
+				.attr("class", "y axis")
+				.call(yAxis);
+			// title
+			svg.append("text")
+				.attr("transform", "translate("+(width/4)+", -20)")
+				.style("font-weight","bold")
+				.style("font-size", "25px")
+				.text("Total Revenue of Product");
+			var bars = svg.selectAll("rect")
+				.data(data)
+				.enter();
+
+			bars.append("rect")
+				.attr("fill", "grey")
+				.attr("x", 10)
+				.attr("y", function(d){
+					return yScale(d.product);
+				})
+				.attr("width", function(d){
+					return xScale(d.sum);
+				})
+				.attr("height", yScale.rangeBand())
+				.on("mouseover", function (d) {
+					//console.log("mouse over here");
+                    d3.select(this).transition().duration(10)
+                    	.attr("fill", "lightblue");
+                    var max = 0;
+                    for(var i = 1; i<5; i++){
+                    	if(d.freq["Q"+i]>max) {
+                    		max = d.freq["Q"+i];
+                    	}
+                    }
+                    svg.append("rect")
+                    	.attr("class", "bar")
+                    	.style("fill", "lightblue")
+                    	.attr("x", 550)
+                    	.attr("y", -40)
+                    	.attr("width", d.freq.Q1*200/max)
+                    	.attr("height", 30)
+                	svg.append("rect")
+	                	.attr("class", "bar")
+	                	.style("fill", "lightblue")
+	                	.attr("x", 550)
+	                	.attr("y", 0)
+	                	.attr("width", d.freq.Q2*200/max)
+	                	.attr("height", 30); 
+                	svg.append("rect")
+                    	.attr("class", "bar")
+                    	.style("fill", "lightblue")
+                    	.attr("x", 550)
+                    	.attr("y", 40)
+                    	.attr("width", d.freq.Q3*200/max)
+                    	.attr("height", 30); 
+                    svg.append("rect")
+                    	.attr("class", "bar")
+                    	.style("fill", "lightblue")
+                    	.attr("x", 550)
+                    	.attr("y", 80)
+                    	.attr("width", d.freq.Q4*200/max)
+                    	.attr("height", 30); 
+
+                    svg.append("text")
+                    	.attr("class", "q")
+                    	.text("Q1")
+                    	.attr("x", 530)
+                    	.attr("y", -25) 
+                    	.style("stroke", "grey")
+                    svg.append("text")
+                    	.attr("class", "q")
+                    	.text("Q2")
+                    	.attr("x", 530)
+                    	.attr("y", 15)
+                    	.style("stroke", "grey")
+                    svg.append("text")
+                    	.attr("class", "q")
+                    	.text("Q3")
+                    	.attr("x", 530)
+                    	.attr("y", 60)
+                    	.style("stroke", "grey")
+                    svg.append("text")
+                    	.attr("class", "q")
+                    	.text("Q4")
+                    	.attr("x", 530)
+                    	.attr("y", 100)
+                    	.style("stroke", "grey")
+                    svg.append("text")
+                    	.attr("class", "money")
+                    	.text("$"+d.freq.Q1)
+                    	.attr("x", 560)
+                    	.attr("y", -25)
+                    	.style("stroke", "white")
+                    svg.append("text")
+                    	.attr("class", "money")
+                    	.text("$"+d.freq.Q2)
+                    	.attr("x", 560)
+                    	.attr("y", 15)
+                    	.style("stroke", "white")
+                    svg.append("text")
+                    	.attr("class", "money")
+                    	.text("$"+d.freq.Q3)
+                    	.attr("x", 560)
+                    	.attr("y", 55)
+                    	.style("stroke", "white")
+                    svg.append("text")
+                    	.attr("class", "money")
+                    	.text("$"+d.freq.Q4)
+                    	.attr("x", 560)
+                    	.attr("y", 95)
+                    	.style("stroke", "white")
+                    d3.selectAll(".bar").style("visibility", "visible"); 
+
+				})
+				.on("mouseout", function(d){
+					
+					d3.select(this).transition().duration(10)
+					.attr("fill", "grey");
+					d3.selectAll(".bar").style("visibility", "hidden").remove();
+					d3.selectAll(".q").style("visibility", "hidden").remove();
+					d3.selectAll(".money").style("visibility", "hidden").remove();
+
+				})
+			
+			bars.append("text")
+				.attr("x", margin.left/2)
+				.attr("y", function(d){
+					return yScale(d.product)+yScale.rangeBand()/2+4;
+				})
+				.attr("fill", "white")
+				.style("font-size", "15px")
+				.style("font-weight", "bold")
+				.text(function(d){
+					//console.log(d.product+" $" + d.sum);
+					return "$" + d.sum;
+				});
+				
+				
+				
+
+
+		</script>
+	</body>

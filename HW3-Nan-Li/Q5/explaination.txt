@@ -1,0 +1,1 @@
+The learning rate determines how fast or slow the learner converges on the optimal solution. If the step size is too big, you might overshoot. If the step size is too small, training takes longer to converge. A larger learning rate(0.2 => 0.5) will lead to faster convergence, but sacripice performance.

@@ -1,0 +1,98 @@
+-- initial commands
+.headers off
+.separator ','
+
+-- (a) Import data
+-- [insert sql statement(s) below]
+CREATE TABLE athletes(id integer, name text, nationality text,gender text, dob numeric, height real, weight integer, sport text, gold integer, silver integer, bronze integer);
+CREATE TABLE countries(country text, code text, population integer, gdp_per_capita real);
+.import athletes.csv athletes
+.import countries.csv countries
+select '';
+
+-- (b) Build indexes
+-- [insert sql statement(s) below]
+CREATE INDEX athletes_country_index ON athletes(nationality);
+CREATE INDEX countries_country_index ON countries(code);
+select '';
+
+-- (c) Quick computations.
+-- [insert sql statement(s) below]
+select count(*) as count_female_athletes_won_gold from (select * from athletes group by id having gender = "female" and gold >= 0);
+select count(*) as count_male_athletes_won_silver from (select * from athletes group by id having gender = "male" and silver >= 0);
+select '';
+
+-- (d) Who won the most medals? 
+-- [insert sql statement(s) below]
+select name as athlete_name, country, sum(gold)+sum(silver)+sum(bronze) as total_medals
+from athletes, countries
+where athletes.nationality = countries.code
+group by athletes.id
+order by total_medals desc, name
+limit 10;
+select '';
+
+-- (e) Worldwide medal leaderboard
+-- [insert sql statement(s) below]
+select country, sum(gold) as gold_medal, sum(silver) as silver_medal, sum(bronze) as bronze_medal
+from athletes, countries
+where athletes.nationality = countries.code
+group by nationality
+order by sum(gold)+sum(silver)+sum(bronze) desc, country
+limit 10;
+select '';
+
+-- (f) Performance leaderboard
+-- [insert sql statement(s) below]
+select country, 1000*(sum(gold)+sum(silver)+sum(bronze))/count(distinct athletes.id)
+as performance_ratio, gdp_per_capita, 
+avg(weight/height/height) as avg_bmi
+from athletes, countries
+where athletes.nationality = countries.code
+group by nationality
+order by performance_ratio desc, country
+limit 10;
+select '';
+
+-- (g) Creating views
+-- [insert sql statement(s) below]
+create view most_played_sports as
+select sport, sum(gold)+sum(silver)+sum(bronze) as total_medals
+from athletes
+group by sport
+having count(distinct id)>500;
+
+select sport1.sport as sport_1, sport2.sport as sport_2
+from most_played_sports sport1
+inner join most_played_sports sport2
+on sport1.total_medals < sport2.total_medals
+order by sport_1, sport_2;
+select '';
+
+-- (h) Count total pairs 
+-- [insert sql statement(s) below]
+select count(*) as count_total_pairs
+from(select sport1.sport as sport_1, sport2.sport as sport_2
+from most_played_sports sport1
+inner join most_played_sports sport2
+on sport1.total_medals < sport2.total_medals);
+select '';
+
+-- (i) Create and import data into FTS table movie_overview.
+-- [insert sql statement(s) below]
+CREATE VIRTUAL TABLE movie_overview USING fts3(id integer, name text, year integer, overview text, popularity decimal);
+.import movie-overview.txt movie_overview
+select '';
+
+-- (i) part 1
+-- [insert sql statement(s) below]
+select count (*) as count_overview_love_not_hate
+from movie_overview 
+where overview MATCH 'love NOT hate';
+select '';
+
+-- (i) part 2
+-- [insert sql statement(s) below]
+select id from movie_overview where overview MATCH 'love AND war' and id not in (select id from movie_overview where overview MATCH 'love NEAR/6 war');
+
+select '';

@@ -1,0 +1,23 @@
+1. fraction value = 0.5:
+
+Algorithm Training Accuracy
+SVM	weighted	0.713262
+SVM	unweighted	0.512545
+Boosted Decision Tree	weighted	0.601254
+Boosted Decision Tree	unweighted	0.555556
+
+2. fraction value = 0.7:
+
+Algorithm Training Accuracy
+SVM	weighted	0.692647
+SVM	unweighted	0.551471
+Boosted Decision Tree	weighted	0.579412
+Boosted Decision Tree	unweighted	0.583824
+
+3. fraction value = 0.5, learning rate 0.2 => 0.5:
+
+Algorithm Training Accuracy
+SVM	weighted	0.713262
+SVM	unweighted	0.512545
+Boosted Decision Tree	weighted	0.584229
+Boosted Decision Tree	unweighted	0.539427

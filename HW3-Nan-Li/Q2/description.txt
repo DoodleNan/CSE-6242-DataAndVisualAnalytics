@@ -1,0 +1,5 @@
+1. Preprocess tsv file by spliting it with "\t" and filtering out the records less than 1.(line 16)
+2. For outbound nodes, I map their value to minus-value, and reduce by key (line 17); For inbound nodes, I leave them untouched and reduce by key (line 18).
+3. Join inbound records with outbound records (line 19).
+4. For each key, I sum up their values (line 20).
+5. Write key-value records into file with "\t" as seperator.

@@ -1,0 +1,15 @@
+initial = LOAD 's3://cse6242-2017spring-bigrams-big/*' AS (bigram:chararray, year:int, occurrence: int, books:int);
+
+initial = FILTER initial by occurrence >= 100 and books >= 20;
+
+grp_initial = GROUP initial by bigram;
+
+result = FOREACH grp_initial GENERATE group, SUM(initial.occurrence), SUM(initial.books);
+
+double_result = FOREACH result GENERATE $0, $1/$2 + (double)($1%$2)/$2;
+
+sort = ORDER double_result BY $1 DESC, $0 ASC;
+
+sort = LIMIT sort 10;
+
+STORE sort INTO 's3://cse6242-nli78/output-large' USING PigStorage('\t');

@@ -1,0 +1,10 @@
+1. Average node degree: 2.057
+2. Diameter of graph: 4
+3. Average path length: 3.645
+
+Intuition Explainations:
+1. Average node degree in a directed graph can be defined as all in-drgree of each nodes devided by number of nodes. Average node of degree 2 means in average each node is connected to 2 nodes.
+
+2.Diameter of the graph can be defined as the farest distance between two nodes in the graph. Diameter of the graph 4 means the follower/friend's follower/friend and another follower/friend's follower/friend.
+
+3. Average path length can be defined as the average path among shortest path between any two nodes in a graph. Average path length 3.645 means on average shortest path between 2 nodes is 3.645.

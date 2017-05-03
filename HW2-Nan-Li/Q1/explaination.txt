@@ -1,0 +1,9 @@
+Q1.a
+1. Delete columns either nonsense or useless, duplicate entries.
+2. Left align text, right align number, align titles with data.
+3. Fill in white space with 0 value
+
+Q1.b
+1. Use side by side circle chart to present different age distributions among different countries in 2010.
+2. choose distinct colors in respect to measure names.
+3. Sort ages in ascending order.

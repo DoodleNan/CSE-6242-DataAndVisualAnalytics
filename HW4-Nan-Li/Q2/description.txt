@@ -1,0 +1,7 @@
+For each tree in forest, I generate boostraping dataset and train a decision tree: 
+(1) loop through all features of all records to find best split point which has maximum info gain.
+(2) split dataset by selected feature and remove it
+(3) recursion ends when there is no feature for spliting or all records belongs to the same group.
+
+I choose it because it is simple and efficient, easy to implement.
+The OOB estimate is 0.9458.

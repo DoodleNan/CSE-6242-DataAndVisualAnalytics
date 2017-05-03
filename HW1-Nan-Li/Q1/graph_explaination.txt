@@ -1,0 +1,2 @@
+1. I use Force Atlas layout and set repulsion strength 2000 so that the graph is neither too big to show enough information nor too small to catch details.
+2. I choose an filter to filter out nodes whose degree is less than 2. The remaining graph will still show basic but important relationships in term of Polo in a more clear way.

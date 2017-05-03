@@ -1,0 +1,20 @@
+C:
+i: 
+	key collision method, fingerprint function:
+   	Event:1642
+   	Venue:142
+ii:
+   	datePart(value.toDate(),"weekday")+', '+value.toDate('yyyy-mm-dd','MMM,dd,yyyy').toString();
+iii:
+	Nominal data: date column
+	Ordinal data: status column
+iV:
+	or(contains(value, "GERMAN AND ENGLISH"),contains(value, "ENGLISH AND GERMAN"));
+V:
+	split(value, "_")[0];
+Vi:
+	I can link and extend the dataset with various webservices: for example,retrieve accurate location including latitude, longitude.
+	I delete the keyword and language column because they are never be used.
+	I can reconcile and match new data based on location, so as to add more information to menu database. New database can be restaurant location, website, chef special treat, etc.
+
+

@@ -1,0 +1,1 @@
+I scale node size linearly. It is easy to implement and dispaly data in a clear way. Also it will demonstrate large differences between datas.
